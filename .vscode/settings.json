@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "rb_tree.h": "c",
+        "cciss_defs.h": "c"
+    }
+}
