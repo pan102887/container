@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "rb_tree.h": "c",
+        "rwonce.h": "c"
+    }
+}

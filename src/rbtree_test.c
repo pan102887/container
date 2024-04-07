@@ -129,7 +129,7 @@ static inline void rb_tree_test(void) {
 
 int main(int argc, char* argv[]) {
 #ifdef __TEST__
-    
+
 #else
     rb_tree_test();
     printf("hello world\n");
