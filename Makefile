@@ -1,69 +1,93 @@
-project := container
-
-SRC_DIR := src
-OBJ_DIR := obj
-BIN_DIR := bin
-
-
-EXE := ${BIN_DIR}/${project}
-SRC := $(wildcard $(SRC_DIR)/*.c)
-OBJ := $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))
+PROJECT := cpp-demo
 
 CC := gcc
-CPPFLAGS := -Iinclude -MMD -MP # -I is a preprocessor flag, not a compiler flag
+CXX := g++
+# --------- C ----------------
+C_CPPFLAGS := -Iinclude -MMD -MP # -I is a preprocessor flag, not a compiler flag
 CFLAGS   := -Wall              # some warnings about bad code
 LDFLAGS  := -Llib              # -L is a linker flag
 LDLIBS   := -lm				   # Left empty if no libs are needed
+C_STANDARD := -std=c2x
+
+
+# --------- CXX ----------------
+CXX_STANDARD := -std=c++2a
+
+
+# --------- PUBLIC -------------
 OPTFLAGS := -O3
-CSTANDARD := -std=c2x
+
+# --------- PROJECT ------------
+BASE_DIR := .
+BUILD_DIR := $(BASE_DIR)/build
+PLATFORM := x64
+RELEASE := debug
 
 
-# ======== test ========
-TEST_DIR := test
-TEST_PROJECT := container_test
-TEST_SRC_DIR := ${TEST_DIR}
-TEST_OBJ_DIR := ${TEST_DIR}/obj
-TEST_BIN_DIR := ${TEST_DIR}/bin
+SRC_DIR := $(BASE_DIR)/src
+OBJ_DIR := $(BUILD_DIR)/$(PLATFORM)/$(RELEASE)/obj
+BIN_DIR := $(BUILD_DIR)/$(PLATFORM)/$(RELEASE)/bin
 
-TEST_EXE := ${TEST_BIN_DIR}/${TEST_PROJECT}
-TEST_SRC := $(wildcard $(TEST_SRC_DIR)/*.c)
-TEST_OBJ := $(patsubst ${SRC_DIR}/%.c, $(TEST_OBJ_DIR)/%.o, $(SRC)) \
-			$(patsubst ${TEST_SRC_DIR}/%.c, $(TEST_OBJ_DIR)/%.o, $(TEST_SRC))
+TARGET := $(BIN_DIR)/$(PROJECT)
+C_SRC := $(wildcard $(SRC_DIR)/*.c)
+CXX_SRC := $(wildcard $(SRC_DIR)/*.cpp) $(wildcard $(SRC_DIR)/*.cc)
+
+C_OBJECTS := $(patsubst %.o, $(OBJ_DIR)/%.o,	\
+	$(patsubst %.c, %.o, $(notdir $(C_SRC)))	\
+)
+CXX_OBJECTS := $(patsubst %.o, $(OBJ_DIR)/%.o,	\
+	$(patsubst %.cpp, %.o,						\
+		$(patsubst %.cc, %.o, 					\
+			$(notdir $(CXX_SRC) )				\
+		)										\
+	)											\
+)
+OBJECTS := $(C_OBJECTS) $(CXX_OBJECTS)
+
+PRE_OBJ := $(patsubst %.o, %.i, $(OBJECTS))
 
 
-TEST_FLAGES := -D__TEST__ -g
 
 
-.PHONY: all test clean print 
 
-all: $(EXE)
+.PHONY: echo clean all dir
 
-$(EXE): $(OBJ) | $(BIN_DIR)
-	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS) | $(BIN_DIR)
+	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	$(CC) $(CPPFLAGS) $(OPTFLAGS) $(CSTANDARD)  $(CFLAGS) -c $< -o $@
+	$(CC) $(C_CPPFLAGS) $(OPTFLAGS) $(C_STANDARD) $(CFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
+	$(CXX)  $(OPTFLAGS) $(CXX_STANDARD) -c $< -o $@
 
 $(BIN_DIR) $(OBJ_DIR):
 	mkdir -p $@
 
-test: $(TEST_EXE)
 
-$(TEST_EXE): $(TEST_OBJ) | $(TEST_BIN_DIR)
-	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
+pre: $(PRE_OBJ) | $(OBJ_DIR)
 
-$(TEST_OBJ_DIR)/%.o: $(SRC_DIR)/%.c | ${TEST_OBJ_DIR} 
-	${CC} $(CPPFLAGS) $(OPTFLAGS) ${CSTANDARD}  $(CFLAGS) ${TEST_FLAGES} -c $< -o $@
+$(OBJ_DIR)/%.i: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	$(CC) -E -C -P $< -o $@
 
-test/obj/rbtree_test.o: test/rbtree_test.c
-	${CC} $(CPPFLAGS) $(OPTFLAGS) ${CSTANDARD}  $(CFLAGS) ${TEST_FLAGES} -c $< -o $@
+$(OBJ_DIR)/%.i: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
+	$(CXX) -E -C -P $< -o $@
+
+clean: $(OBJ_DIR)
+	@$(RM) -rv $<
+
+clean_all:
+	@$(RM) -rv $(BUILD_DIR)
+
+dir: $(BIN_DIR) $(OBJ_DIR)
 
 
-${TEST_DIR} $(TEST_BIN_DIR) ${TEST_OBJ_DIR} :
-	mkdir -p $@
+echo:
+	@echo $(TARGET)
+	@echo $(CXX_SRC)
+	@echo $(OBJECTS)
+	@echo $(PRE_OBJ)
+	
 
-clean:
-	@$(RM) -rv $(BIN_DIR) $(OBJ_DIR) ${TEST_OBJ_DIR} ${TEST_BIN_DIR}
-
-print:
-	echo ${TEST_OBJ}
