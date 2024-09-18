@@ -49,6 +49,16 @@
         "typeinfo": "cpp",
         "export.h": "c",
         "tree.h": "c",
-        "pthread.h": "c"
+        "pthread.h": "c",
+        "unistd.h": "c",
+        "model.h": "c",
+        "any": "c",
+        "chrono": "c",
+        "list": "c",
+        "fstream": "c",
+        "mutex": "c",
+        "sstream": "c",
+        "variant": "c",
+        "test.cpp": "c"
     }
 }

@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include "rwonce.h"
 #include "rb_tree.h"
+#include "test.cpp"
+#include "model.h"
 
 struct test_node {
     struct rb_node rb;
@@ -129,7 +131,10 @@ static inline void rb_tree_test(void) {
 
 int main(int argc, char* argv[]) {
 #ifdef __TEST__
-
+    int result =  plus(3, 3);
+    printf("result is: %d.\n", result);
+    result = function(3, 3);
+    printf("result is: %d.\n", result);
 #else
     rb_tree_test();
     printf("hello world\n");

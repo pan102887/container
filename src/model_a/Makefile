@@ -1,4 +1,4 @@
-PROJECT := container
+PROJECT := libmodel_a.so
 
 CC := gcc
 CXX := g++
@@ -6,11 +6,11 @@ PLATFORM := x64
 RELEASE := debug
 
 # ========== PROJECT STRUCT ==========
-BASE_DIR := .
+BASE_DIR := ../..
 SRC_DIR := $(BASE_DIR)/src
-INC_DIR := $(BASE_DIR)/include $(BASE_DIR)/src/model_a						# 头文件目录
-LIB_DIR := $(BASE_DIR)/build/$(PLATFORM)/$(RELEASE)/bin						# 库目录
-LIB :=	model_a																# 引入的库
+INC_DIR := $(BASE_DIR)/include $(BASE_DIR)/src/model_a						# 包含(头文件)目录
+LIB_DIR := 																	# 库目录
+LIB :=																		# 引入的库
 BUILD_DIR := $(BASE_DIR)/build
 OBJ_DIR := $(BUILD_DIR)/$(PLATFORM)/$(RELEASE)/obj
 BIN_DIR := $(BUILD_DIR)/$(PLATFORM)/$(RELEASE)/bin
@@ -47,8 +47,8 @@ CXX_STANDARD := -std=c++2a
 CXX_CPPFLAGS := $(INCLUDE) $(CFLAGS) $(CXX_STANDARD) $(OPTFLAGS)
 
 # ============= LINK OPTION ==========
-LDFLAGS  := $(addprefix -L,$(LIB_DIR))              			# -Ldir 库搜索路径中增加dir
-LDLIBS   := $(addprefix -l,$(LIB))			   					# 连接静态库libname.a 或动态库libname.so的库文件
+LDFLAGS  := $(addprefix -L,$(LIB_DIR))              			# -Ldir 动态库搜索路径中增加dir
+LDLIBS   := $(addprefix -l,$(LIB))				   				# 连接静态库libname.a 或动态库libname.so的库文件
 
 
 # =============== SCRIPT =============
@@ -57,13 +57,13 @@ LDLIBS   := $(addprefix -l,$(LIB))			   					# 连接静态库libname.a 或动�
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS) | $(BIN_DIR)
-	$(CXX)  $^ $(LDFLAGS) $(LDLIBS) -o $@
+	$(CXX) -shared $^ $(LDFLAGS) $(LDLIBS) -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	$(CC) $(C_CPPFLAGS) -c $< -o $@
+	$(CC) $(C_CPPFLAGS) -fPIC -c $< -o $@
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
-	$(CXX) $(CXX_CPPFLAGS) -c $< -o $@
+	$(CXX) $(CXX_CPPFLAGS) -fPIC -c $< -o $@
 
 $(BIN_DIR) $(OBJ_DIR):
 	mkdir -p $@
