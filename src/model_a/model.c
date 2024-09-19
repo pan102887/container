@@ -1,5 +1,5 @@
 #include "model.h"
 
 int function(int a, int b) {
-    return a * b;
+    return a + b;
 }
