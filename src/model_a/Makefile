@@ -3,7 +3,7 @@ PROJECT := libmodel_a.so
 CC := gcc
 CXX := g++
 PLATFORM := x64
-RELEASE := debug
+RELEASE := Debug
 
 # ========== PROJECT STRUCT ==========
 BASE_DIR := .
