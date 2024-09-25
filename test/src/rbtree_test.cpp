@@ -9,6 +9,7 @@ extern "C" {
 #include "rb_tree.h"
 }
 
+extern "C" {
 struct test_node {
     struct rb_node rb;
     const char* key;
@@ -83,6 +84,8 @@ static inline void init_test_node(const char *key, const char *value, struct tes
     p->value_size = strlen(value);    
 }
 
+}
+
 static inline test_node create_node(const char* key, const char* value) {
     struct test_node node_0;
     init_test_node("KEY", "Hello rb tree!!", &node_0);
@@ -112,7 +115,10 @@ static inline void rb_tree_test(void) {
 TEST(rb_tree, insert_and_search_test) {
     rb_tree_test();
     for (auto node : test_data_list) {
-        struct test_node *search_result = test_node_search(&root, node.key);
-        ASSERT_EQ(search_result, &node);
+        int i = 0;
+        struct test_node *search_result = test_node_search(&root, (&node)->key);
+        ASSERT_EQ(search_result->value, node.value) << "the search result does't match expect";
+        printf("expect value:\t%s.\n", node.value);
+        printf("searched value:\t%s.\n", search_result->value);
     }
 }
