@@ -3,4 +3,4 @@
 ./.vscode
 *.o
 *.d
-./.cmake_build
+./cmake_build

@@ -3,14 +3,14 @@ PROJECT := container
 CC := gcc
 CXX := g++
 PLATFORM := x64
-RELEASE := debug
+RELEASE := Debug
 
 # ========== PROJECT STRUCT ==========
 BASE_DIR	:=	.
 SRC_DIR		:=	$(BASE_DIR)/src
-INC_DIR		:=	$(BASE_DIR)/include $(BASE_DIR)/src/model_a
-LIB_DIR		:=	$(BASE_DIR)/build/$(PLATFORM)/$(RELEASE)/bin
-LIB			:=	model_a
+INC_DIR		:=	$(BASE_DIR)/include
+LIB_DIR		:=	$(BASE_DIR)/lib
+LIB			:=
 BUILD_DIR	:=	$(BASE_DIR)/build
 OBJ_DIR		:=	$(BUILD_DIR)/$(PLATFORM)/$(RELEASE)/obj
 BIN_DIR		:=	$(BUILD_DIR)/$(PLATFORM)/$(RELEASE)/bin

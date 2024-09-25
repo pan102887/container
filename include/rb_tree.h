@@ -68,11 +68,11 @@ extern struct rb_node* rb_first_postorder(const struct rb_root*);
 extern struct rb_node* rb_next_postorder(const struct rb_node*);
 
 /* Fast replacement of a single node without remove/rebalance/add/rebalance */
-extern void rb_replace_node(struct rb_node* victim, struct rb_node* new,
+extern void rb_replace_node(struct rb_node* victim, struct rb_node* new_one,
     struct rb_root* root);
 
 #if  0
-extern void rb_replace_node_rcu(struct rb_node* victim, struct rb_node* new,
+extern void rb_replace_node_rcu(struct rb_node* victim, struct rb_node* new_one,
     struct rb_root* root);
 #endif
 
@@ -155,12 +155,12 @@ rb_erase_cached(struct rb_node* node, struct rb_root_cached* root)
 }
 
 static inline void rb_replace_node_cached(struct rb_node* victim,
-    struct rb_node* new,
+    struct rb_node* new_one,
     struct rb_root_cached* root)
 {
     if (root->rb_leftmost == victim)
-        root->rb_leftmost = new;
-    rb_replace_node(victim, new, &root->rb_root);
+        root->rb_leftmost = new_one;
+    rb_replace_node(victim, new_one, &root->rb_root);
 }
 
 /**
@@ -328,12 +328,12 @@ rb_next_match(const void* key, struct rb_node* node,
 
 struct rb_augment_callbacks {
     void (*propagate)(struct rb_node* node, struct rb_node* stop);
-    void (*copy)(struct rb_node* old, struct rb_node* new);
-    void (*rotate)(struct rb_node* old, struct rb_node* new);
+    void (*copy)(struct rb_node* old, struct rb_node* new_one);
+    void (*rotate)(struct rb_node* old, struct rb_node* new_one);
 };
 
 extern void __rb_insert_augmented(struct rb_node* node, struct rb_root* root,
-    void (*augment_rotate)(struct rb_node* old, struct rb_node* new));
+    void (*augment_rotate)(struct rb_node* old, struct rb_node* new_one));
 
 /*
  * Fixup the rbtree and update the augmented information when rebalancing.
@@ -355,10 +355,10 @@ rb_insert_augmented(struct rb_node* node, struct rb_root* root,
 
 static inline void
 rb_insert_augmented_cached(struct rb_node* node,
-    struct rb_root_cached* root, bool newleft,
+    struct rb_root_cached* root, bool new_oneleft,
     const struct rb_augment_callbacks* augment)
 {
-    if (newleft)
+    if (new_oneleft)
         root->rb_leftmost = node;
     rb_insert_augmented(node, &root->rb_root, augment);
 }
@@ -413,18 +413,18 @@ RBNAME ## _propagate(struct rb_node *rb, struct rb_node *stop)		\
 	}								                                \
 }									                                \
 static inline void							                        \
-RBNAME ## _copy(struct rb_node *rb_old, struct rb_node *rb_new)		\
+RBNAME ## _copy(struct rb_node *rb_old, struct rb_node *rb_new_one)		\
 {	                                								\
 	RBSTRUCT *old = rb_entry(rb_old, RBSTRUCT, RBFIELD);		    \
-	RBSTRUCT *new = rb_entry(rb_new, RBSTRUCT, RBFIELD);		    \
-	new->RBAUGMENTED = old->RBAUGMENTED;				            \
+	RBSTRUCT *new_one = rb_entry(rb_new_one, RBSTRUCT, RBFIELD);		    \
+	new_one->RBAUGMENTED = old->RBAUGMENTED;				            \
 }									                                \
 static void							                            	\
-RBNAME ## _rotate(struct rb_node *rb_old, struct rb_node *rb_new)	\
+RBNAME ## _rotate(struct rb_node *rb_old, struct rb_node *rb_new_one)	\
 {									                                \
 	RBSTRUCT *old = rb_entry(rb_old, RBSTRUCT, RBFIELD);		    \
-	RBSTRUCT *new = rb_entry(rb_new, RBSTRUCT, RBFIELD);		    \
-	new->RBAUGMENTED = old->RBAUGMENTED;				            \
+	RBSTRUCT *new_one = rb_entry(rb_new_one, RBSTRUCT, RBFIELD);		    \
+	new_one->RBAUGMENTED = old->RBAUGMENTED;				            \
 	RBCOMPUTE(old, false);						                    \
 }									                                \
 RBSTATIC const struct rb_augment_callbacks RBNAME = {			    \
@@ -491,36 +491,36 @@ static inline void rb_set_parent_color(struct rb_node* rb, struct rb_node* p, in
 }
 
 static inline void
-__rb_change_child(struct rb_node* old, struct rb_node* new,
+__rb_change_child(struct rb_node* old, struct rb_node* new_one,
     struct rb_node* parent, struct rb_root* root)
 {
     if (parent) {
         if (parent->rb_left == old)
-            WRITE_ONCE(parent->rb_left, new);
+            WRITE_ONCE(parent->rb_left, new_one);
         else
-            WRITE_ONCE(parent->rb_right, new);
+            WRITE_ONCE(parent->rb_right, new_one);
     }
     else
-        WRITE_ONCE(root->rb_node, new);
+        WRITE_ONCE(root->rb_node, new_one);
 }
 
 #if 0
 static inline void
-__rb_change_child_rcu(struct rb_node *old, struct rb_node *new,
+__rb_change_child_rcu(struct rb_node *old, struct rb_node *new_one,
 		      struct rb_node *parent, struct rb_root *root)
 {
 	if (parent) {
 		if (parent->rb_left == old)
-			rcu_assign_pointer(parent->rb_left, new);
+			rcu_assign_pointer(parent->rb_left, new_one);
 		else
-			rcu_assign_pointer(parent->rb_right, new);
+			rcu_assign_pointer(parent->rb_right, new_one);
 	} else
-		rcu_assign_pointer(root->rb_node, new);
+		rcu_assign_pointer(root->rb_node, new_one);
 }
 #endif
 
 extern void __rb_erase_color(struct rb_node* parent, struct rb_root* root,
-    void (*augment_rotate)(struct rb_node* old, struct rb_node* new));
+    void (*augment_rotate)(struct rb_node* old, struct rb_node* new_one));
 
 
 static __always_inline struct rb_node*
@@ -647,5 +647,4 @@ rb_erase_augmented_cached(struct rb_node *node, struct rb_root_cached *root,
 		root->rb_leftmost = rb_next(node);
 	rb_erase_augmented(node, &root->rb_root, augment);
 }
-
 #endif /* _RB_TREE_H_ */

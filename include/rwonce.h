@@ -1,6 +1,8 @@
 #ifndef __READ_WRITE_ONCE_H__
 #define __READ_WRITE_ONCE_H__
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 // TODO: READ_ONCE and WRIGHT_ONCE wait for implement
 /*
@@ -19,5 +21,8 @@
 #endif
 
 #define WRITE_ONCE(x, v) ({__WRITE_ONCE(x, v);})
+#ifdef __cplusplus
+}
+#endif
 
 #endif
