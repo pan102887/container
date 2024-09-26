@@ -156,6 +156,30 @@ src/rb_tree.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/container.dir/build.make CMakeFiles/container.dir/src/rb_tree.c.s
 .PHONY : src/rb_tree.c.s
 
+src/rb_tree.o: src/rb_tree.cpp.o
+.PHONY : src/rb_tree.o
+
+# target to build an object file
+src/rb_tree.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/container.dir/build.make CMakeFiles/container.dir/src/rb_tree.cpp.o
+.PHONY : src/rb_tree.cpp.o
+
+src/rb_tree.i: src/rb_tree.cpp.i
+.PHONY : src/rb_tree.i
+
+# target to preprocess a source file
+src/rb_tree.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/container.dir/build.make CMakeFiles/container.dir/src/rb_tree.cpp.i
+.PHONY : src/rb_tree.cpp.i
+
+src/rb_tree.s: src/rb_tree.cpp.s
+.PHONY : src/rb_tree.s
+
+# target to generate assembly for a file
+src/rb_tree.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/container.dir/build.make CMakeFiles/container.dir/src/rb_tree.cpp.s
+.PHONY : src/rb_tree.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -165,6 +189,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... container"
+	@echo "... src/rb_tree.o"
+	@echo "... src/rb_tree.i"
+	@echo "... src/rb_tree.s"
 	@echo "... src/rb_tree.o"
 	@echo "... src/rb_tree.i"
 	@echo "... src/rb_tree.s"

@@ -1,1 +1,1 @@
-/usr/bin/cc -fPIC -Wall -g -shared -Wl,-soname,libcontainer.so -o ../lib/libcontainer.so CMakeFiles/container.dir/src/rb_tree.c.o   -L/home/jupeter/source/container/build/x64/Debug/bin  -L/home/jupeter/source/container/lib 
+/usr/bin/c++ -fPIC -g -shared -Wl,-soname,libcontainer.so -o ../lib/libcontainer.so CMakeFiles/container.dir/src/rb_tree.c.o CMakeFiles/container.dir/src/rb_tree.cpp.o   -L/home/jupeter/source/container/build/x64/Debug/bin  -L/home/jupeter/source/container/lib 
