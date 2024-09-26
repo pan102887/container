@@ -86,18 +86,15 @@ static inline void init_test_node(const char *key, const char *value, struct tes
 
 }
 
-static inline test_node create_node(const char* key, const char* value) {
-    struct test_node node_0;
-    init_test_node("KEY", "Hello rb tree!!", &node_0);
+static inline test_node *create_node(const char* key, const char* value) {
+    struct test_node *node_0 = new test_node();
+    init_test_node(key, value, node_0);
     return node_0;
 }
 
 
-
-
-
-static struct rb_root root = {NULL};
-static inline std::vector<test_node> test_data_list = {
+static struct rb_root root;
+static inline std::vector<test_node*> test_data_list = {
     create_node("KEY", "Hello rb tree!!"),
     create_node("key_1", "that is a test for rb tree!!"),
     create_node("key_2", "that a value 2!!"),
@@ -105,20 +102,22 @@ static inline std::vector<test_node> test_data_list = {
 };
 
 
-
 static inline void rb_tree_test(void) {
-    for (auto node : test_data_list) {
-        test_node_insert(&root, &node);
+    for (auto &node : test_data_list) {
+        test_node_insert(&root, node);
     }
 }
 
 TEST(rb_tree, insert_and_search_test) {
     rb_tree_test();
-    for (auto node : test_data_list) {
+    for (auto &node : test_data_list) {
         int i = 0;
-        struct test_node *search_result = test_node_search(&root, (&node)->key);
-        ASSERT_EQ(search_result->value, node.value) << "the search result does't match expect";
-        printf("expect value:\t%s.\n", node.value);
+        struct test_node *search_result = test_node_search(&root, node->key);
+        ASSERT_EQ(search_result->value, node->value) << "the search result does't match expect";
+        printf("expect value:\t%s.\n", node->value);
         printf("searched value:\t%s.\n", search_result->value);
+    }
+    for (auto node : test_data_list) {
+        free(node);
     }
 }
