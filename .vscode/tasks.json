@@ -1,0 +1,33 @@
+{
+    "options": {
+        "cwd": "${workspaceFolder}/test/cmake_build"
+    },
+    "tasks": [
+        {
+            "label": "test cmake",
+            "type" : "shell",
+            "command": "cmake",
+            "args": [
+                ".."
+            ]
+        },
+        {
+            "label": "test make",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "command" : "make",
+            "args": []
+        },
+        {
+            "label": "test build",
+            "dependsOrder": "sequence",
+            "dependsOn":[
+                "test cmake","test make"
+            ]
+        }
+
+    ],
+    "version": "2.0.0"
+}
