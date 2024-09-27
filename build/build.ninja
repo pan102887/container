@@ -57,6 +57,14 @@ build CMakeFiles/container.dir/src/rb_tree.c.o: C_COMPILER__container_Debug /hom
   OBJECT_DIR = CMakeFiles/container.dir
   OBJECT_FILE_DIR = CMakeFiles/container.dir/src
 
+build CMakeFiles/container.dir/src/rb_tree.cpp.o: CXX_COMPILER__container_Debug /home/jupeter/source/container/src/rb_tree.cpp || cmake_object_order_depends_target_container
+  DEFINES = -D__TEST__ -Dcontainer_EXPORTS
+  DEP_FILE = CMakeFiles/container.dir/src/rb_tree.cpp.o.d
+  FLAGS = -g -fPIC -std=gnu++20
+  INCLUDES = -I/home/jupeter/source/container/include -I/home/jupeter/source/container/src/model_a
+  OBJECT_DIR = CMakeFiles/container.dir
+  OBJECT_FILE_DIR = CMakeFiles/container.dir/src
+
 
 # =============================================================================
 # Link build statements for SHARED_LIBRARY target container
@@ -65,8 +73,8 @@ build CMakeFiles/container.dir/src/rb_tree.c.o: C_COMPILER__container_Debug /hom
 #############################################
 # Link the shared library ../lib/libcontainer.so
 
-build ../lib/libcontainer.so: C_SHARED_LIBRARY_LINKER__container_Debug CMakeFiles/container.dir/src/rb_tree.c.o
-  LANGUAGE_COMPILE_FLAGS = -Wall -g
+build ../lib/libcontainer.so: CXX_SHARED_LIBRARY_LINKER__container_Debug CMakeFiles/container.dir/src/rb_tree.c.o CMakeFiles/container.dir/src/rb_tree.cpp.o
+  LANGUAGE_COMPILE_FLAGS = -g
   LINK_PATH = -L/home/jupeter/source/container/build/x64/Debug/bin   -L/home/jupeter/source/container/lib
   OBJECT_DIR = CMakeFiles/container.dir
   POST_BUILD = :

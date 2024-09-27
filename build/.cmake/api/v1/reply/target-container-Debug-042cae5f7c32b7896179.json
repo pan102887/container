@@ -108,6 +108,51 @@
 			[
 				0
 			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -fPIC"
+				},
+				{
+					"fragment" : "-std=gnu++20"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 4,
+					"define" : "__TEST__"
+				},
+				{
+					"define" : "container_EXPORTS"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 5,
+					"path" : "/home/jupeter/source/container/include"
+				},
+				{
+					"backtrace" : 6,
+					"path" : "/home/jupeter/source/container/src/model_a"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				1
+			]
 		}
 	],
 	"id" : "container::@6890427a1f51a3e7e1df",
@@ -130,7 +175,7 @@
 				"role" : "libraryPath"
 			}
 		],
-		"language" : "C"
+		"language" : "CXX"
 	},
 	"name" : "container",
 	"nameOnDisk" : "libcontainer.so",
@@ -145,7 +190,8 @@
 			"name" : "Source Files",
 			"sourceIndexes" : 
 			[
-				0
+				0,
+				1
 			]
 		}
 	],
@@ -155,6 +201,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "src/rb_tree.c",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "src/rb_tree.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],
