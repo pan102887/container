@@ -1,3 +1,0 @@
-/home/jupeter/source/container/build/CMakeFiles/container.dir
-/home/jupeter/source/container/build/CMakeFiles/edit_cache.dir
-/home/jupeter/source/container/build/CMakeFiles/rebuild_cache.dir
