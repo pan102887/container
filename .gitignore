@@ -1,0 +1,6 @@
+./lib
+
+./.vscode
+*.o
+*.d
+cmake_build
