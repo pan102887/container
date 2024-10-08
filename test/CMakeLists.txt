@@ -7,7 +7,8 @@ set(CMAKE_C_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED on)
 set(CMAKE_CXX_STANDARD 20)
 
-set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_BUILD_TYPE Release)
+# set(CMAKE_BUILD_TYPE Debug)
 set(PLATFORM x64)
 set(CMAKE_VERBOSE_MAKEFILE ON)
 set(CMAKE_C_FLAGS -Wall)
@@ -37,6 +38,10 @@ if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     add_compile_definitions(
         __TEST__
     )
+
+    add_compile_options(-O1 -g)
+else ()
+    add_compile_options(-O3)
 endif ()
 target_compile_definitions(${PROJECT_NAME}
     PUBLIC __cp
