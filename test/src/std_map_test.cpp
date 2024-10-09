@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <vector>
 #include <gtest/gtest.h>
-#include <random>
 #include <chrono>
 #include <unordered_map>
 #include "map_test_data_struct.h"
@@ -76,19 +75,19 @@ namespace test::std_map {
             ASSERT_NE(nullptr, search_result) << "CAN NOT FIND " << *insert_node->key;
             ASSERT_EQ(search_result->value, insert_node->value) << "the search result does't match expect";
         }
-        for (auto node : duplicated) {
-            std::cout << "values (";
-            for (auto value : node.second) {
-                std::cout << *(value->value);
-                if (value != node.second.back()) {
-                    std::cout << ", ";
-                }
-                else {
-                    std::cout << ") ";
-                }
-            }
-            std::cout << "with duplicated key: " << node.first << std::endl;
-        }
+        // for (auto node : duplicated) {
+        //     std::cout << "values (";
+        //     for (auto value : node.second) {
+        //         std::cout << *(value->value);
+        //         if (value != node.second.back()) {
+        //             std::cout << ", ";
+        //         }
+        //         else {
+        //             std::cout << ") ";
+        //         }
+        //     }
+        //     std::cout << "with duplicated key: " << node.first << std::endl;
+        // }
     }
 
     inline std::chrono::nanoseconds run_and_count_time(void run(void)) {
