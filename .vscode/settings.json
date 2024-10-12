@@ -76,6 +76,8 @@
         "span": "cpp",
         "stop_token": "cpp",
         "thread": "cpp",
-        "cinttypes": "cpp"
+        "cinttypes": "cpp",
+        "rb_tree": "cpp",
+        "rb_tree_c.h": "c"
     }
 }

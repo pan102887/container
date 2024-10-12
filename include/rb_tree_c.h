@@ -1,5 +1,5 @@
-#ifndef _RB_TREE_H_
-#define _RB_TREE_H_
+#ifndef _RB_TREE_C_H_
+#define _RB_TREE_C_H_
 
 // ========================= rbtree_typed.h =========================
 struct rb_node {

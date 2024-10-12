@@ -56,8 +56,7 @@ namespace test::rb_tree {
     } // extern "C"
 
 
-    static struct rb_root root;
-
+    static struct rb_root root = RB_ROOT;
     inline std::vector<test_node*> test_data_list = {};
     inline std::vector<test_node*> inserted = {};
     std::unordered_map<std::string, std::vector<test_node*>> duplicated;
@@ -95,19 +94,6 @@ namespace test::rb_tree {
             ASSERT_NE(nullptr, search_result) << "CAN NOT FIND " << *insert_node->key;
             ASSERT_EQ(search_result->value, insert_node->value) << "the search result does't match expect";
         }
-        // for (auto node : duplicated) {
-        //     std::cout << "values (";
-        //     for (auto value : node.second) {
-        //         std::cout << *(value->value);
-        //         if (value != node.second.back()) {
-        //             std::cout << ", ";
-        //         }
-        //         else {
-        //             std::cout << ") ";
-        //         }
-        //     }
-        //     std::cout << "with duplicated key: " << node.first << std::endl;
-        // }
     }
 
     inline std::chrono::nanoseconds run_and_count_time(void run(void)) {
@@ -139,5 +125,18 @@ namespace test::rb_tree {
 
         time_count = std::chrono::duration_cast<std::chrono::milliseconds>(run_and_count_time(destroy));
         std::cout << "destroy spend: " << time_count.count() << " milliseconds" << std::endl;
+    }
+
+    TEST(RB_TREE, INSERT_DEBUG) {
+        struct rb_root new_root = RB_ROOT;
+        class test_node node_1 = test_node("F", "F");
+        class test_node node_2 = test_node("E", "E");
+        class test_node node_3 = test_node("D", "D");
+        class test_node node_4 = test_node("C", "C");
+
+        test_node_insert(&new_root, &node_1);
+        test_node_insert(&new_root, &node_2);
+        test_node_insert(&new_root, &node_3);
+        test_node_insert(&new_root, &node_4);
     }
 }

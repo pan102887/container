@@ -13,6 +13,13 @@ public:
         }
     }
 
+    Snowflake(uint16_t datacenterId, uint16_t workerId, uint64_t lastTimestam)
+        : datacenterId_(datacenterId), workerId_(workerId), sequence_(0), lastTimestamp_(lastTimestam) {
+        if (datacenterId_ > maxDatacenterId_ || workerId_ > maxWorkerId_) {
+            throw std::invalid_argument("Invalid datacenter or worker ID");
+        }
+    }
+
     uint64_t generateUniqueId() {
         uint64_t timestamp = currentTimestamp();
 
@@ -71,13 +78,14 @@ private:
 
 static inline uint16_t datacenter_id = 10;
 static inline uint16_t worker_id = 20;
-static inline Snowflake snowflake = Snowflake(datacenter_id, worker_id);
+auto now = std::chrono::system_clock::now();
+auto du = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch());
+static inline Snowflake snowflake = Snowflake(datacenter_id, worker_id, now.time_since_epoch().count());
 
 
 class grand_parent {
 private:
     int value = 0;
-    std::chrono::_V2::system_clock::time_point now;
     std::string id;
 public:
     grand_parent() {
@@ -91,8 +99,6 @@ public:
 
 class parent : public grand_parent {
 private:
-
-    std::chrono::_V2::system_clock::time_point now;
     std::string id;
 public:
     parent() {

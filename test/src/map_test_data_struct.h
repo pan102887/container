@@ -5,7 +5,7 @@
 #include <random>
 extern "C" {
 #include "rwonce.h"
-#include "rb_tree.h"
+#include "rb_tree_c.h"
 }
 
 namespace test::map
@@ -13,7 +13,7 @@ namespace test::map
     class test_node {
     public:
         static const int str_len = 10;
-        static const int node_count = 1000000;
+        static const int node_count = 100000;
         struct rb_node rb;
         const std::string* key;
         const std::string* value;

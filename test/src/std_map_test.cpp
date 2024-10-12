@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <string>
 #include <iostream>
 #include <stdlib.h>
@@ -16,29 +15,6 @@ namespace test::std_map {
     inline std::vector<test_node*> test_data_list = {};
     inline std::vector<test_node*> inserted = {};
     std::unordered_map<std::string, std::vector<test_node*>> duplicated;
-
-    // inline const char* random_str(int length) {
-    //     char* buffer = (char*)malloc(sizeof(char) * length + 1);
-
-    //     std::random_device rd;
-    //     std::default_random_engine random(rd());
-
-    //     char tmp;
-    //     for (int i = 0; i < length; i++) {
-    //         auto value = random() % 36;
-    //         tmp = value;
-    //         if (tmp < 10) {
-    //             tmp += '0';
-    //         }
-    //         else {
-    //             tmp -= 10;
-    //             tmp += 'A';
-    //         }
-    //         buffer[i] = tmp;
-    //     }
-    //     buffer[length] = '\0';
-    //     return buffer;
-    // }
 
     static inline void data_gen() {
         
@@ -75,19 +51,6 @@ namespace test::std_map {
             ASSERT_NE(nullptr, search_result) << "CAN NOT FIND " << *insert_node->key;
             ASSERT_EQ(search_result->value, insert_node->value) << "the search result does't match expect";
         }
-        // for (auto node : duplicated) {
-        //     std::cout << "values (";
-        //     for (auto value : node.second) {
-        //         std::cout << *(value->value);
-        //         if (value != node.second.back()) {
-        //             std::cout << ", ";
-        //         }
-        //         else {
-        //             std::cout << ") ";
-        //         }
-        //     }
-        //     std::cout << "with duplicated key: " << node.first << std::endl;
-        // }
     }
 
     inline std::chrono::nanoseconds run_and_count_time(void run(void)) {

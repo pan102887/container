@@ -4,7 +4,7 @@
 
 #include "export.h"
 #include "rwonce.h"
-#include "rb_tree.h"
+#include "rb_tree_c.h"
 
 /*
  * red-black trees properties:  https://en.wikipedia.org/wiki/Rbtree
