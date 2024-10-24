@@ -1,31 +1,37 @@
 {
     "options": {
-        "cwd": "${workspaceFolder}/test/cmake_build"
+        "cwd": "${workspaceFolder}"
     },
     "tasks": [
         {
-            "label": "test cmake",
-            "type" : "shell",
-            "command": "cmake",
-            "args": [
-                ".."
-            ]
+            "label": "get gtest build permission",
+            "type": "shell",
+            "command": "chmod 755 ./test/gtest_build.sh"
         },
         {
-            "label": "test make",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "command" : "make",
-            "args": []
+            "label": "gtest build",
+            "type": "shell",
+            "command": "./test/gtest_build.sh",
+            "dependsOn":[
+                "get gtest build permission"
+            ],
+            "dependsOrder": "sequence"
+        },
+
+        {
+            "label": "get test build permission",
+            "type": "shell",
+            "command": "chmod 755 ./test/test_build.sh"
         },
         {
             "label": "test build",
-            "dependsOrder": "sequence",
+            "type": "shell",
+            "command": "./test/test_build.sh",
+            
             "dependsOn":[
-                "test cmake","test make"
-            ]
+                "gtest build", "get test build permission"
+            ],
+            "dependsOrder": "parallel"
         }
 
     ],
